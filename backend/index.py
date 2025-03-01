@@ -10,6 +10,10 @@ from realTimeSearchEngine import realTimeChatBot
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend communication
 
+@app.route('/', methods=['GET'])
+def main():
+    return jsonify({"response": "Server Started."})
+
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
