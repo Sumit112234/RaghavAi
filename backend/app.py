@@ -3,8 +3,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import asyncio
 # from Automation import AutomationTask 
-# from Chatbot import ChatBot
-# from model import FirstLayerDMM
+from Chatbot import ChatBot
+from model import FirstLayerDMM
 # from realTimeSearchEngine import realTimeChatBot
 
 
@@ -15,27 +15,27 @@ CORS(app)  # Enable CORS for frontend communication
 def main():
     return jsonify({"response": "Server Started."})
 
-# @app.route('/chat', methods=['POST'])
-# def chat():
-#     data = request.get_json()
-#     user_query = data.get("query", "")
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    user_query = data.get("query", "")
     
-#     if not user_query:
-#         return jsonify({"error": "No query provided"}), 400
+    if not user_query:
+        return jsonify({"error": "No query provided"}), 400
     
-#     response = ChatBot(user_query)
-#     return jsonify({"response": response})
+    response = ChatBot(user_query)
+    return jsonify({"response": response})
 
-# @app.route('/get-query-details', methods=['POST'])
-# def getQueryDetails():
-#     data = request.get_json()
-#     user_query = data.get("query", "")
+@app.route('/get-query-details', methods=['POST'])
+def getQueryDetails():
+    data = request.get_json()
+    user_query = data.get("query", "")
     
-#     if not user_query:
-#         return jsonify({"error": "No query provided"}), 400
+    if not user_query:
+        return jsonify({"error": "No query provided"}), 400
     
-#     response = FirstLayerDMM(user_query)
-#     return jsonify({"response": response})
+    response = FirstLayerDMM(user_query)
+    return jsonify({"response": response})
 
 # @app.route('/chat-realtime', methods=['POST'])
 # def getrealTimeChat():
