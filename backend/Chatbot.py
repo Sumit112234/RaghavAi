@@ -7,9 +7,13 @@ import os
 
 env_vars = dotenv_values(".env")
 
-userName = env_vars["userName"]
-assistantname = env_vars["assistantName"]
-GroqApiKey = env_vars["groqKey"]
+# userName = env_vars["userName"]
+userName = os.getenv('userName')
+
+# assistantname = env_vars["assistantName"]
+assistantname = os.getenv("assistantName")
+# GroqApiKey = env_vars["groqKey"]
+GroqApiKey = os.getenv("groqKey")
 
 client = Groq(api_key=GroqApiKey)
 print("hello ji from chatbot")

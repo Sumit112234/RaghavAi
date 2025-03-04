@@ -190,5 +190,93 @@
     {
         "role": "assistant",
         "content": "I'm doing great, thanks for asking, Sumit!"
+    },
+    {
+        "role": "user",
+        "content": "hello"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello!"
+    },
+    {
+        "role": "user",
+        "content": "how are you?"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm doing great, thanks!"
+    },
+    {
+        "role": "user",
+        "content": "what are you doing?"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm chatting with you, Sumit!"
+    },
+    {
+        "role": "user",
+        "content": "hi"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi!"
+    },
+    {
+        "role": "user",
+        "content": "what is 2 + 2"
+    },
+    {
+        "role": "assistant",
+        "content": "The answer is 4!"
+    },
+    {
+        "role": "user",
+        "content": "hi"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi!"
+    },
+    {
+        "role": "user",
+        "content": "what is my name?"
+    },
+    {
+        "role": "assistant",
+        "content": "Your name is Sumit!"
+    },
+    {
+        "role": "user",
+        "content": "hello ji kaise ho saare "
+    },
+    {
+        "role": "assistant",
+        "content": "Main theek hu, Sumit ji!"
+    },
+    {
+        "role": "user",
+        "content": "Tell me a joke"
+    },
+    {
+        "role": "assistant",
+        "content": "Why don't scientists trust atoms? Because they make up everything!"
+    },
+    {
+        "role": "user",
+        "content": "wow amazing"
+    },
+    {
+        "role": "assistant",
+        "content": "Thank you, Sumit! I'm glad you enjoyed the joke!"
+    },
+    {
+        "role": "user",
+        "content": "okay"
+    },
+    {
+        "role": "assistant",
+        "content": "Okay, Sumit!"
     }
 ]

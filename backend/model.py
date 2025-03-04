@@ -1,10 +1,12 @@
 import cohere
 from rich import print
 from dotenv import dotenv_values
+import os
 
 env_vars = dotenv_values(".env")
 
-cohereApiKey = env_vars["cohereKey"]
+# cohereApiKey = env_vars["cohereKey"]
+cohereApiKey = os.getenv("cohereKey")
 
 co = cohere.Client(api_key=cohereApiKey)
 
