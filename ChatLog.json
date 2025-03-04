@@ -1,0 +1,42 @@
+[
+    {
+        "role": "user",
+        "content": "hi"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi Sumit! How can I assist you today?"
+    },
+    {
+        "role": "user",
+        "content": "what is my name"
+    },
+    {
+        "role": "assistant",
+        "content": "Your name is Sumit."
+    },
+    {
+        "role": "user",
+        "content": "can you tell me last 5 chats details"
+    },
+    {
+        "role": "assistant",
+        "content": "Here are the details of our last 5 chats:\n\n1. You said \"hi\".\n2. I replied \"Hi Sumit! How can I assist you today?\"\n3. You asked \"what is my name\".\n4. I replied \"Your name is Sumit.\"\n5. You asked \"can you tell me last 5 chats details\"."
+    },
+    {
+        "role": "user",
+        "content": ""
+    },
+    {
+        "role": "assistant",
+        "content": "It seems like you didn't ask anything or provide any input. Please feel free to ask me a question or provide a topic you'd like to discuss!"
+    },
+    {
+        "role": "user",
+        "content": "tell me my last chats"
+    },
+    {
+        "role": "assistant",
+        "content": "Here are the details of our last 4 chats:\n\n1. You said \"hi\".\n2. I replied \"Hi Sumit! How can I assist you today?\"\n3. You asked \"what is my name\".\n4. I replied \"Your name is Sumit.\""
+    }
+]

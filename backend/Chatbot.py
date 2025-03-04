@@ -30,14 +30,14 @@ SystemChatBot = [
 ]
 
 try:
-    if os.stat(r"backend\data\ChatLog.json").st_size == 0:  # Check if file is empty
+    if os.stat(r"ChatLog.json").st_size == 0:  # Check if file is empty
         messages = []
     else:
-        with open(r"backend\data\ChatLog.json", "r") as f:
+        with open(r"ChatLog.json", "r") as f:
             messages = load(f)
 except (FileNotFoundError):  # Handle both file missing and empty JSON
     messages = []
-    with open(r"backend\data\ChatLog.json", "w") as f:
+    with open(r"ChatLog.json", "w") as f:
         dump([], f, indent=4)
 
 
@@ -64,7 +64,7 @@ def AnswerModifier(Answer):
 
 def ChatBot(Query):
     try :
-        with open(r"backend\data\ChatLog.json", "r") as f:
+        with open(r"ChatLog.json", "r") as f:
             messages = load(f)
 
         messages.append({"role" : "user", "content" : f"{Query}"})  
@@ -89,14 +89,14 @@ def ChatBot(Query):
         
         messages.append({"role" : "assistant", "content" : Answer})
 
-        with open(r"backend\data\ChatLog.json", "w") as f:
+        with open(r"ChatLog.json", "w") as f:
             dump(messages,f, indent=4)
 
         return AnswerModifier(Answer=Answer)
 
     except Exception as e:
         print(f"Error : {e}")   
-        with open(r"backend\data\ChatLog.json", "w") as f:
+        with open(r"ChatLog.json", "w") as f:
             dump([],f, indent=4)
         return ChatBot(Query)
     
