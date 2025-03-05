@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import asyncio
-from Automation import AutomationTask 
+# from Automation import AutomationTask 
 from realTimeSearchEngine import realTimeChatBot
 
 
@@ -24,43 +24,43 @@ def getrealTimeChat():
     return jsonify({"response": response})
 
 
-@app.route('/automation-task', methods=['POST'])
-@cross_origin()
-def automation_task():
-    try:
-        data = request.get_json()
-        commands = data.get("commands", [])
+# @app.route('/automation-task', methods=['POST'])
+# @cross_origin()
+# def automation_task():
+#     try:
+#         data = request.get_json()
+#         commands = data.get("commands", [])
 
-        if not commands:
-            return jsonify({"error": "No commands provided"}), 400
+#         if not commands:
+#             return jsonify({"error": "No commands provided"}), 400
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        result = loop.run_until_complete(AutomationTask(commands))
+#         loop = asyncio.new_event_loop()
+#         asyncio.set_event_loop(loop)
+#         result = loop.run_until_complete(AutomationTask(commands))
 
-        # Generate user-friendly messages
-        task_messages = []
-        for command in commands:
-            if command.startswith("open"):
-                task_messages.append(f"Opening {command.replace('open ', '')}")
-            elif command.startswith("close"):
-                task_messages.append(f"Closing {command.replace('close ', '')}")
-            elif command.startswith("play"):
-                task_messages.append(f"Playing {command.replace('play ', '')}")
-            elif command.startswith("google search"):
-                task_messages.append(f"Searching Google for {command.replace('google search ', '')}")
-            elif command.startswith("youtube search"):
-                task_messages.append(f"Searching YouTube for {command.replace('youtube search ', '')}")
-            else:
-                task_messages.append(f"Executing {command}...")
+#         # Generate user-friendly messages
+#         task_messages = []
+#         for command in commands:
+#             if command.startswith("open"):
+#                 task_messages.append(f"Opening {command.replace('open ', '')}")
+#             elif command.startswith("close"):
+#                 task_messages.append(f"Closing {command.replace('close ', '')}")
+#             elif command.startswith("play"):
+#                 task_messages.append(f"Playing {command.replace('play ', '')}")
+#             elif command.startswith("google search"):
+#                 task_messages.append(f"Searching Google for {command.replace('google search ', '')}")
+#             elif command.startswith("youtube search"):
+#                 task_messages.append(f"Searching YouTube for {command.replace('youtube search ', '')}")
+#             else:
+#                 task_messages.append(f"Executing {command}...")
 
-        return jsonify({
-            "message": "Automation executed successfully!",
-            "result": task_messages  # Send a list of descriptive messages
-        }), 200
+#         return jsonify({
+#             "message": "Automation executed successfully!",
+#             "result": task_messages  # Send a list of descriptive messages
+#         }), 200
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 
 
 # @app.route('/automation-task', methods=['POST'])
