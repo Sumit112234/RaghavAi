@@ -49,7 +49,7 @@ const Chatbot = () => {
 
   const AskToChatbot = async (inputText) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/chat", {
+      const response = await fetch("https://raghav-aiserver.vercel.app/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: inputText }),
@@ -70,7 +70,7 @@ const Chatbot = () => {
 
   const AskToGoogle = async (inputText) => {
     try {
-      const response = await fetch("https://raghav-aiserver.vercel.app/chat-realtime", {
+      const response = await fetch("http://localhost:5000/chat-realtime", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: inputText }),
@@ -92,7 +92,7 @@ const Chatbot = () => {
   const AutomationTask = async (commands) => {
     try {
       console.log("Sending commands:", commands);
-      const response = await fetch("https://raghav-aiserver.vercel.app/automation-task", {
+      const response = await fetch("http://localhost:5000/automation-task", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ commands }),
