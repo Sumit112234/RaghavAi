@@ -63,6 +63,39 @@ def AnswerModifier(Answer):
     return modified_answer
 
 def ChatBot(Query):
+    try:
+        global messages
+        
+        messages.append({"role": "user", "content": Query})
+
+        completion = client.chat.completions.create(
+            model='llama3-70b-8192',
+            messages=SystemChatBot + [{"role": "system", "content": RealtimeInfomation()}] + messages,   
+            max_tokens=1024,
+            temperature=0.7,
+            top_p=1.0,
+            stream=True,
+            stop=None 
+        )
+
+        Answer = ""
+
+        for chunk in completion:
+            if chunk.choices[0].delta.content:
+                Answer += chunk.choices[0].delta.content
+
+        Answer = Answer.replace("</s>", "")
+        
+        messages.append({"role": "assistant", "content": Answer})
+
+        return AnswerModifier(Answer)
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return "An error occurred while processing your request."
+
+
+# def ChatBot(Query):
     try :
         with open(r"ChatLog.json", "r") as f:
             messages = load(f)

@@ -22,7 +22,7 @@ const Chatbot = () => {
   const getQueryDetails = async (inputText) => {
     setAssistantState("thinking");
     try {
-      const response = await fetch("http://127.0.0.1:5000/get-query-details", {
+      const response = await fetch("https://raghav-aiserver.vercel.app/get-query-details", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: inputText }),
@@ -70,7 +70,7 @@ const Chatbot = () => {
 
   const AskToGoogle = async (inputText) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/chat-realtime", {
+      const response = await fetch("https://raghav-aiserver.vercel.app/chat-realtime", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: inputText }),
@@ -92,7 +92,7 @@ const Chatbot = () => {
   const AutomationTask = async (commands) => {
     try {
       console.log("Sending commands:", commands);
-      const response = await fetch("http://127.0.0.1:5000/automation-task", {
+      const response = await fetch("https://raghav-aiserver.vercel.app/automation-task", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ commands }),

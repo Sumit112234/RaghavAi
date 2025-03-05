@@ -38,5 +38,29 @@
     {
         "role": "assistant",
         "content": "Here are the details of our last 4 chats:\n\n1. You said \"hi\".\n2. I replied \"Hi Sumit! How can I assist you today?\"\n3. You asked \"what is my name\".\n4. I replied \"Your name is Sumit.\""
+    },
+    {
+        "role": "user",
+        "content": "hi"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi Sumit!"
+    },
+    {
+        "role": "user",
+        "content": "hi"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi again!"
+    },
+    {
+        "role": "user",
+        "content": "hello ji"
+    },
+    {
+        "role": "assistant",
+        "content": "Hello Sumit!"
     }
 ]

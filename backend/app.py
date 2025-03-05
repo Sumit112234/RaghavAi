@@ -15,14 +15,21 @@ CORS(app)  # Enable CORS for frontend communication
 def main():
     return jsonify({"response": "Server Started."})
 
-@app.route('/chat', methods=['POST'])
+@app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    data = request.get_json()
-    user_query = data.get("query", "")
-    
-    if not user_query:
-        return jsonify({"error": "No query provided"}), 400
-    
+    if request.method == 'POST':
+        data = request.get_json()
+        user_query = data.get("query", "")
+
+        if not user_query:
+            return jsonify({"error": "No query provided"}), 400
+
+    elif request.method == 'GET':
+        user_query = request.args.get("query", "")
+
+        if not user_query:
+            return jsonify({"error": "No query provided"}), 400
+
     response = ChatBot(user_query)
     return jsonify({"response": response})
 
