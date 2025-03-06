@@ -9,12 +9,17 @@ from typing import List
 from dotenv import dotenv_values
 from bs4 import BeautifulSoup
 from rich import print
-from pywhatkit import search, playonyt
+# from pywhatkit import search, playonyt
+import pywhatkit
 import platform
 
-if os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY") or os.environ.get("XDG_SESSION_TYPE") == "x11":
-    import pyautogui
-    import mouseinfo
+if os.environ.get("DISPLAY"):
+    try:
+        import pyautogui
+        import mouseinfo
+    except ImportError:
+        pyautogui = None
+        mouseinfo = None
 else:
     pyautogui = None
     mouseinfo = None
@@ -43,7 +48,14 @@ useragent = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
              "Chrome/58.0.3029.110 Safari/537.3")
 
 def GoogleSearch(topic):
-    search(topic)
+    pywhatkit.search(topic)
+    return True
+
+def playonyt(query):
+    if os.environ.get("DISPLAY") is None:  # Prevents running in headless mode
+        print("Cannot play YouTube in headless mode")
+        return False
+    pywhatkit.playonyt(query)
     return True
 
 def OpenApp(app):
