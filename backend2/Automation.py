@@ -9,10 +9,9 @@ from typing import List
 from dotenv import dotenv_values
 from bs4 import BeautifulSoup
 from rich import print
-# from pywhatkit import search, playonyt
 import pywhatkit
-import platform
 
+# Conditional import for pyautogui and mouseinfo
 if os.environ.get("DISPLAY"):
     try:
         import pyautogui
@@ -24,12 +23,14 @@ else:
     pyautogui = None
     mouseinfo = None
 
+# Conditional import for AppOpener
 try:
     from AppOpener import close, open as aapopen
 except ImportError:
     aapopen = None
     close = None
 
+# Conditional import for Groq
 try:
     from groq import Groq
 except ImportError:
@@ -89,17 +90,16 @@ def CloseApp(app):
     print("Close app function is not available.")
     return False
 
-
 def System(command):
     if pyautogui is None:
         print("System command cannot be executed in a headless environment")
         return False
 
     actions = {
-        'mute': lambda: pyautogui.press("volumemute"),
-        'unmute': lambda: pyautogui.press("volumemute"),
-        'volume up': lambda: pyautogui.press("volumeup"),
-        'volume down': lambda: pyautogui.press("volumedown"),
+        'mute': lambda: keyboard.press_and_release("volume mute"),
+        'unmute': lambda: keyboard.press_and_release("volume mute"),
+        'volume up': lambda: keyboard.press_and_release("volume up"),
+        'volume down': lambda: keyboard.press_and_release("volume down"),
     }
 
     if command in actions:
@@ -108,16 +108,6 @@ def System(command):
     else:
         print("Unknown command")
         return False
-    
-# def System(command):
-#     actions = {
-#         'mute': lambda: keyboard.press_and_release("volume mute"),
-#         'unmute': lambda: keyboard.press_and_release("volume mute"),
-#         'volume up': lambda: keyboard.press_and_release("volume up"),
-#         'volume down': lambda: keyboard.press_and_release("volume down"),
-#     }
-#     actions.get(command, lambda: print("Unknown command"))()
-#     return True
 
 async def translateAndExecute(commands: List[str]):
     funcs = []
