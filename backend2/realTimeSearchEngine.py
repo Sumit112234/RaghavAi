@@ -3,6 +3,7 @@ from groq import Groq
 import datetime
 from dotenv import dotenv_values
 import os
+import pywhatkit
 
 # Load environment variables
 env_vars = dotenv_values(".env")
