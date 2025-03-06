@@ -10,6 +10,14 @@ from dotenv import dotenv_values
 from bs4 import BeautifulSoup
 from rich import print
 from pywhatkit import search, playonyt
+import platform
+
+if os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY") or os.environ.get("XDG_SESSION_TYPE") == "x11":
+    import pyautogui
+    import mouseinfo
+else:
+    pyautogui = None
+    mouseinfo = None
 
 try:
     from AppOpener import close, open as aapopen
@@ -69,15 +77,35 @@ def CloseApp(app):
     print("Close app function is not available.")
     return False
 
+
 def System(command):
+    if pyautogui is None:
+        print("System command cannot be executed in a headless environment")
+        return False
+
     actions = {
-        'mute': lambda: keyboard.press_and_release("volume mute"),
-        'unmute': lambda: keyboard.press_and_release("volume mute"),
-        'volume up': lambda: keyboard.press_and_release("volume up"),
-        'volume down': lambda: keyboard.press_and_release("volume down"),
+        'mute': lambda: pyautogui.press("volumemute"),
+        'unmute': lambda: pyautogui.press("volumemute"),
+        'volume up': lambda: pyautogui.press("volumeup"),
+        'volume down': lambda: pyautogui.press("volumedown"),
     }
-    actions.get(command, lambda: print("Unknown command"))()
-    return True
+
+    if command in actions:
+        actions[command]()
+        return True
+    else:
+        print("Unknown command")
+        return False
+    
+# def System(command):
+#     actions = {
+#         'mute': lambda: keyboard.press_and_release("volume mute"),
+#         'unmute': lambda: keyboard.press_and_release("volume mute"),
+#         'volume up': lambda: keyboard.press_and_release("volume up"),
+#         'volume down': lambda: keyboard.press_and_release("volume down"),
+#     }
+#     actions.get(command, lambda: print("Unknown command"))()
+#     return True
 
 async def translateAndExecute(commands: List[str]):
     funcs = []
@@ -107,7 +135,7 @@ async def AutomationTask(commands: List[str]):
     return True
 
 async def task():
-    await AutomationTask(["close task manager", "close file explorer", "system volume down"])
+    await AutomationTask(["open task manager", "open file explorer", "system volume down"])
 
 if __name__ == "__main__":
     asyncio.run(task())
