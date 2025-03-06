@@ -1,17 +1,26 @@
-from AppOpener import close, open as aapopen
+import os
+import platform
+
+IS_WINDOWS = os.name == 'nt'
+IS_LINUX = os.name == 'posix'
+IS_MAC = IS_LINUX and "darwin" in os.sys.platform
+
+# Import AppOpener only on Windows
+if IS_WINDOWS:
+    from AppOpener import close, open as aapopen
+else:
+    close, aapopen = None, None  # Set to None for non-Windows OS
+
 from webbrowser import open as webopen
-# from pywhatkit import search, playonyt
 from dotenv import dotenv_values
 from bs4 import BeautifulSoup
 from rich import print
 from groq import Groq
 import requests
-import os
 import webbrowser
 import subprocess
 import asyncio
 import keyboard
-import platform
 from typing import List
 
 env_vars = dotenv_values(".env")
@@ -28,10 +37,6 @@ client = Groq(api_key=groqApi)
 messages = []
 
 SystemChatBot = [{'role': 'system', 'message': 'Hello, I am your assistant, how can I help you today?'}]
-
-IS_WINDOWS = os.name == 'nt'
-IS_LINUX = os.name == 'posix'
-IS_MAC = IS_LINUX and "darwin" in os.sys.platform
 
 
 def GoogleSearch(topic):
@@ -76,9 +81,8 @@ def PlayYouTube(topic):
     return True
 
 
-
 def OpenApp(app):
-    if aapopen:
+    if IS_WINDOWS and aapopen:
         try:
             aapopen(app, match_closest=True, output=True, throw_error=True)
             return True
@@ -99,7 +103,7 @@ def OpenApp(app):
         return False
 
 def CloseApp(app):
-    if close:
+    if IS_WINDOWS and close:
         try:
             close(app, match_closest=True, output=True, throw_error=True)
             return True
