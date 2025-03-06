@@ -1,22 +1,23 @@
-import os 
+import os
 import webbrowser
 import subprocess
 import asyncio
 import platform
 import requests
-import keyboard
 from typing import List
 from dotenv import dotenv_values
 from bs4 import BeautifulSoup
 from rich import print
 import pywhatkit
 
+# Conditional import for AppOpener
 try:
     from AppOpener import close, open as aapopen
 except ImportError:
     aapopen = None
     close = None
 
+# Conditional import for Groq
 try:
     from groq import Groq
 except ImportError:
@@ -39,8 +40,11 @@ def GoogleSearch(topic):
     return True
 
 def playonyt(query):
-    print("Cannot play YouTube in a headless environment")
-    return False
+    if os.environ.get("DISPLAY") is None:  # Prevents running in headless mode
+        print("Cannot play YouTube in headless mode")
+        return False
+    pywhatkit.playonyt(query)
+    return True
 
 def OpenApp(app):
     if aapopen:
@@ -73,20 +77,6 @@ def CloseApp(app):
     print("Close app function is not available.")
     return False
 
-def System(command):
-    actions = {
-        'mute': lambda: keyboard.press_and_release("volume mute"),
-        'unmute': lambda: keyboard.press_and_release("volume mute"),
-        'volume up': lambda: keyboard.press_and_release("volume up"),
-        'volume down': lambda: keyboard.press_and_release("volume down"),
-    }
-    action = actions.get(command)
-    if action:
-        action()
-        return True
-    print("Unknown command")
-    return False
-
 async def translateAndExecute(commands: List[str]):
     funcs = []
     for command in commands:
@@ -100,8 +90,6 @@ async def translateAndExecute(commands: List[str]):
             funcs.append(asyncio.to_thread(lambda: webbrowser.open(f"https://www.youtube.com/results?search_query={command.removeprefix('youtube ')}")))
         elif command.startswith("play "):
             funcs.append(asyncio.to_thread(playonyt, command.removeprefix("play ")))
-        elif command.startswith("system "):
-            funcs.append(asyncio.to_thread(System, command.removeprefix("system ")))
         else:
             print("No command found")
     
@@ -115,10 +103,133 @@ async def AutomationTask(commands: List[str]):
     return True
 
 async def task():
-    await AutomationTask(["open task manager", "open file explorer", "system volume down"])
+    await AutomationTask(["open task manager", "open file explorer"])
 
 if __name__ == "__main__":
     asyncio.run(task())
+
+
+# import os 
+# import webbrowser
+# import subprocess
+# import asyncio
+# import platform
+# import requests
+# import keyboard
+# from typing import List
+# from dotenv import dotenv_values
+# from bs4 import BeautifulSoup
+# from rich import print
+# import pywhatkit
+
+# try:
+#     from AppOpener import close, open as aapopen
+# except ImportError:
+#     aapopen = None
+#     close = None
+
+# try:
+#     from groq import Groq
+# except ImportError:
+#     Groq = None
+
+# env_vars = dotenv_values(".env")
+# groqApi = os.getenv('groqKey')
+
+# if Groq:
+#     client = Groq(api_key=groqApi)
+#     messages = []
+#     SystemChatBot = [{'role': 'system', 'message': 'Hello, I am your assistant, how can I help you today?'}]
+
+# useragent = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+#              "AppleWebKit/537.36 (KHTML, like Gecko) "
+#              "Chrome/58.0.3029.110 Safari/537.3")
+
+# def GoogleSearch(topic):
+#     pywhatkit.search(topic)
+#     return True
+
+# def playonyt(query):
+#     print("Cannot play YouTube in a headless environment")
+#     return False
+
+# def OpenApp(app):
+#     if aapopen:
+#         try:
+#             aapopen(app, match_closest=True, output=True, throw_error=True)
+#             return True
+#         except Exception:
+#             pass
+    
+#     system_platform = platform.system().lower()
+#     try:
+#         if system_platform == "windows":
+#             subprocess.run(["start", "", app], shell=True)
+#         elif system_platform == "darwin":
+#             subprocess.run(["open", "-a", app])
+#         elif system_platform == "linux":
+#             subprocess.run(["xdg-open", app])
+#         return True
+#     except Exception as e:
+#         print(f"Failed to open {app}: {e}")
+#         return False
+
+# def CloseApp(app):
+#     if close:
+#         try:
+#             close(app, match_closest=True, output=True, throw_error=True)
+#             return True
+#         except Exception:
+#             pass
+#     print("Close app function is not available.")
+#     return False
+
+# def System(command):
+#     actions = {
+#         'mute': lambda: keyboard.press_and_release("volume mute"),
+#         'unmute': lambda: keyboard.press_and_release("volume mute"),
+#         'volume up': lambda: keyboard.press_and_release("volume up"),
+#         'volume down': lambda: keyboard.press_and_release("volume down"),
+#     }
+#     action = actions.get(command)
+#     if action:
+#         action()
+#         return True
+#     print("Unknown command")
+#     return False
+
+# async def translateAndExecute(commands: List[str]):
+#     funcs = []
+#     for command in commands:
+#         if command.startswith("open "):
+#             funcs.append(asyncio.to_thread(OpenApp, command.removeprefix("open ")))
+#         elif command.startswith("close "):
+#             funcs.append(asyncio.to_thread(CloseApp, command.removeprefix("close ")))
+#         elif command.startswith("search "):
+#             funcs.append(asyncio.to_thread(GoogleSearch, command.removeprefix("search ")))
+#         elif command.startswith("youtube "):
+#             funcs.append(asyncio.to_thread(lambda: webbrowser.open(f"https://www.youtube.com/results?search_query={command.removeprefix('youtube ')}")))
+#         elif command.startswith("play "):
+#             funcs.append(asyncio.to_thread(playonyt, command.removeprefix("play ")))
+#         elif command.startswith("system "):
+#             funcs.append(asyncio.to_thread(System, command.removeprefix("system ")))
+#         else:
+#             print("No command found")
+    
+#     results = await asyncio.gather(*funcs)
+#     for result in results:
+#         yield result
+
+# async def AutomationTask(commands: List[str]):
+#     async for _ in translateAndExecute(commands):
+#         pass
+#     return True
+
+# async def task():
+#     await AutomationTask(["open task manager", "open file explorer", "system volume down"])
+
+# if __name__ == "__main__":
+#     asyncio.run(task())
 
 
 
