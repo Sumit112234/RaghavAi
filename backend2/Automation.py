@@ -1,4 +1,4 @@
-import os
+import os 
 import webbrowser
 import subprocess
 import asyncio
@@ -11,26 +11,12 @@ from bs4 import BeautifulSoup
 from rich import print
 import pywhatkit
 
-# Conditional import for pyautogui and mouseinfo
-if os.environ.get("DISPLAY"):
-    try:
-        import pyautogui
-        import mouseinfo
-    except ImportError:
-        pyautogui = None
-        mouseinfo = None
-else:
-    pyautogui = None
-    mouseinfo = None
-
-# Conditional import for AppOpener
 try:
     from AppOpener import close, open as aapopen
 except ImportError:
     aapopen = None
     close = None
 
-# Conditional import for Groq
 try:
     from groq import Groq
 except ImportError:
@@ -53,11 +39,8 @@ def GoogleSearch(topic):
     return True
 
 def playonyt(query):
-    if os.environ.get("DISPLAY") is None:  # Prevents running in headless mode
-        print("Cannot play YouTube in headless mode")
-        return False
-    pywhatkit.playonyt(query)
-    return True
+    print("Cannot play YouTube in a headless environment")
+    return False
 
 def OpenApp(app):
     if aapopen:
@@ -91,23 +74,18 @@ def CloseApp(app):
     return False
 
 def System(command):
-    if pyautogui is None:
-        print("System command cannot be executed in a headless environment")
-        return False
-
     actions = {
         'mute': lambda: keyboard.press_and_release("volume mute"),
         'unmute': lambda: keyboard.press_and_release("volume mute"),
         'volume up': lambda: keyboard.press_and_release("volume up"),
         'volume down': lambda: keyboard.press_and_release("volume down"),
     }
-
-    if command in actions:
-        actions[command]()
+    action = actions.get(command)
+    if action:
+        action()
         return True
-    else:
-        print("Unknown command")
-        return False
+    print("Unknown command")
+    return False
 
 async def translateAndExecute(commands: List[str]):
     funcs = []
@@ -141,6 +119,7 @@ async def task():
 
 if __name__ == "__main__":
     asyncio.run(task())
+
 
 
 # from AppOpener import close, open as aapopen
